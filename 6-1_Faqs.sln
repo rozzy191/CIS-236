@@ -1,25 +1,44 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29613.14
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faqs", "Faqs\Faqs.csproj", "{4E70D2D9-DB61-44C3-BC37-F4B09633C0A7}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4E70D2D9-DB61-44C3-BC37-F4B09633C0A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E70D2D9-DB61-44C3-BC37-F4B09633C0A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E70D2D9-DB61-44C3-BC37-F4B09633C0A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E70D2D9-DB61-44C3-BC37-F4B09633C0A7}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {795518D9-5314-45AF-A4B1-54D7128956AF}
-	EndGlobalSection
-EndGlobal
+using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+
+namespace RoutingPractice.Controllers
+{
+    public class HomeController : Controller
+    {
+        public IActionResult Index()
+        {
+            return Content("Home");
+        }
+
+        public IActionResult Privacy()
+        {
+            return Content("Privacy");
+        }
+
+        public IActionResult Display(string id)
+        {
+            if (id == null)
+            {
+                return Content("No ID supplied.");
+            }
+            else
+            {
+                return Content("ID: " + id);
+            }
+        }
+
+        [Route("[action]/{start}/{end?}/{message?}")]
+        public IActionResult Countdown(int start, int end = 0,
+            string message = "")
+        {
+            string contentString = "Counting down:\n";
+            for (int i = start; i >= end; i--)
+            {
+                contentString += i + "\n";
+            }
+            contentString += message;
+            return Content(contentString);
+        }
+
+    }
+}
